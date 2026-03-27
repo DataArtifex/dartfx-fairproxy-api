@@ -4,6 +4,22 @@ from typing import Any
 from rdflib import Graph
 
 
+class CatalogProvider(ABC):
+    """
+    Abstract base class enforcing a contract for catalog/server-scope metadata
+    providers across heterogeneous datastores.
+    """
+
+    @abstractmethod
+    def __init__(self, host: str):
+        pass
+
+    @abstractmethod
+    async def get_dcat_graph(self) -> Graph:
+        """Return the W3C DCAT catalog metadata as an rdflib Graph."""
+        pass
+
+
 class DatasetProvider(ABC):
     """
     Abstract base class enforcing a contract for heterogeneous datastores

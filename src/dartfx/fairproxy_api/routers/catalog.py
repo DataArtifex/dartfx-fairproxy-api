@@ -2,8 +2,8 @@ from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 
-from fairproxy_api.adapters.base import DatasetProvider
-from fairproxy_api.dependencies import get_platform_adapter
+from fairproxy_api.adapters.base import CatalogProvider
+from fairproxy_api.dependencies import get_catalog_adapter
 from fairproxy_api.models import ResourceInfo
 from fairproxy_api.utils import get_rdf_format, resolve_resource
 
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/catalog", tags=["Catalog"])
 
 @router.get("/{uri:path}/dcat")
 async def dcat(
-    uri: str, request: Request, adapter: Annotated[DatasetProvider, Depends(get_platform_adapter)]
+    uri: str, request: Request, adapter: Annotated[CatalogProvider, Depends(get_catalog_adapter)]
 ) -> Response:
     """
     W3C DCAT metadata for this catalog.

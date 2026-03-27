@@ -3,7 +3,7 @@ from typing import Any
 
 from fastapi import HTTPException
 
-from fairproxy_api.adapters.base import DatasetProvider
+from fairproxy_api.adapters.base import CatalogProvider, DatasetProvider
 from fairproxy_api.models import Platform
 from fairproxy_api.repositories.server import ServerRepository
 from fairproxy_api.repositories.yaml_server import YamlServerRepository
@@ -55,4 +55,35 @@ def get_platform_adapter(uri: str) -> DatasetProvider:
     else:
         raise HTTPException(
             status_code=501, detail=f"Adapter for platform {resource_info.platform.value.name} is not implemented."
+        )
+
+
+def get_catalog_adapter(uri: str) -> CatalogProvider:
+    """
+    FastAPI Dependency to parse a URI string and return the corresponding initialized catalog-level adapter.
+    """
+
+    try:
+        resource_info = resolve_resource(uri)
+    except Exception as err:
+        raise HTTPException(status_code=400, detail=f"Failed to resolve URN '{uri}': {err}") from err
+
+    if not resource_info or not resource_info.platform:
+        raise HTTPException(status_code=400, detail=f"Resource {uri} is not supported or malformed.")
+
+    if resource_info.platform == Platform.SOCRATA:
+        from fairproxy_api.adapters.socrata import SocrataCatalogAdapter
+
+        server = get_socrata_server(resource_info.host)
+        return SocrataCatalogAdapter(server)
+
+    elif resource_info.platform == Platform.MTNARDS:
+        raise HTTPException(status_code=501, detail="MTNA RDS catalog integration is experimental and currently disabled.")
+
+    elif resource_info.platform == Platform.USCENSUS:
+        raise HTTPException(status_code=501, detail="US Census catalog integration is experimental and currently disabled.")
+
+    else:
+        raise HTTPException(
+            status_code=501, detail=f"Catalog adapter for platform {resource_info.platform.value.name} is not implemented."
         )

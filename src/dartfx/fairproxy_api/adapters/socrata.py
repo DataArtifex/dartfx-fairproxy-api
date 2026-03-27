@@ -2,7 +2,7 @@ import json
 from importlib import import_module
 from typing import Any, cast
 
-from fairproxy_api.adapters.base import DatasetProvider
+from fairproxy_api.adapters.base import CatalogProvider, DatasetProvider
 from fastapi import HTTPException
 from lxml import etree
 from rdflib import Graph
@@ -237,3 +237,22 @@ class SocrataAdapter(DatasetProvider):
             raise HTTPException(
                 status_code=500, detail=f"An error occurred getting code snippet for env '{environment}': {err}"
             ) from err
+
+
+class SocrataCatalogAdapter(CatalogProvider):
+    """
+    Adapter implementing the CatalogProvider interface for Socrata catalog/server metadata.
+    """
+
+    def __init__(self, server: Any):
+        self.server = server
+
+    async def get_dcat_graph(self) -> Graph:
+        try:
+            dcat_generator_class = _import_socrata_dcat_generator()
+            generator = dcat_generator_class(self.server)
+            return cast(Graph, generator.get_graph())
+        except HTTPException:
+            raise
+        except Exception as err:
+            raise HTTPException(status_code=500, detail=f"An error occurred generating catalog DCAT: {err}") from err

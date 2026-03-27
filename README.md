@@ -41,7 +41,7 @@ Socrata-specific route (`/socrata/{host}/{dataset_id}`).
 
 This project recommends using [uv](https://github.com/astral-sh/uv) for fast and reliable Python package management.
 
-### Using uv (Recommended)
+### Setup with uv
 
 To set up the development environment with `uv`:
 
@@ -50,31 +50,33 @@ To set up the development environment with `uv`:
 uv sync
 ```
 
-### Using Hatch
+Run project tasks with `uv run`:
+
+```bash
+# Run tests
+uv run pytest
+
+# Build documentation
+uv run sphinx-build -b html docs/source docs/build/html
+```
+
+### Optional: Hatch via uvx
 
 You can also use [Hatch](https://hatch.pypa.io/) directly:
 
 ```bash
 # Run tests
-hatch run test
+uvx hatch run test
 
 # Enter the default shell
-hatch shell
-```
-
-### Local Installation
-
-For traditional installation:
-
-```bash
-pip install -e .
+uvx hatch shell
 ```
 
 
 ## Development
 
 ### Version Management
-Versions are managed dynamically in `src/dartfx/fairproxy_api/__about__.py`. You can use `hatch version` to view or bump the version.
+Versions are managed dynamically in `src/dartfx/fairproxy_api/__about__.py`.
 
 ### Secret Management
 For local development, create a `.env` file in the root directory. This file is git-ignored and can be used to store local API keys or configuration. These are automatically loaded by the test suite.
@@ -118,7 +120,7 @@ uv run pytest
 
 ### Building Documentation
 ```bash
-hatch run docs:build
+uv run sphinx-build -b html docs/source docs/build/html
 ```
 
 
