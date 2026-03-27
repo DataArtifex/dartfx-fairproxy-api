@@ -59,6 +59,7 @@ dev = [
   "pre-commit>=4.0.0",
   "types-pyyaml>=6.0.12.20250915",
   "lxml-stubs>=0.5.1",
+  "types-ujson",
 ]
 docs = [
   "sphinx>=9.0.0",
@@ -80,8 +81,9 @@ python = ["3.12", "3.13"]
 
 [tool.hatch.envs.types]
 dependencies = ["dev"]
+
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/fairproxy_api tests}"
+check = "mypy {args:src tests}"
 
 [tool.hatch.envs.docs]
 dependencies = ["docs"]
