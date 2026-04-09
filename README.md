@@ -1,13 +1,14 @@
 # fair-proxy-api
 
-[![PyPI - Version](https://img.shields.io/pypi/v/fair-proxy-api.svg)](https://pypi.org/project/fair-proxy-api)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fair-proxy-api.svg)](https://pypi.org/project/fair-proxy-api)
-[![CI](https://github.com/DataArtifex/fair-proxy-api/actions/workflows/test.yml/badge.svg)](https://github.com/DataArtifex/fair-proxy-api/actions/workflows/test.yml)
-[![License](https://img.shields.io/github/license/DataArtifex/fair-proxy-api.svg)](https://github.com/DataArtifex/fair-proxy-api/blob/main/LICENSE.txt)
+[![Development Status](https://img.shields.io/badge/status-early%20release-orange.svg)](https://github.com/DataArtifex/dartfx-fairproxy-api)
+[![Documentation](https://img.shields.io/badge/docs-blue)](https://www.dataartifex.org/dartfx-fairproxy-api/)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/DataArtifex/dartfx-fairproxy-api)
+[![Package Status](https://img.shields.io/badge/PyPI-not%20published-lightgrey)](https://github.com/DataArtifex/dartfx-fairproxy-api)
+[![CI](https://github.com/DataArtifex/rdf-toolkit/actions/workflows/test.yml/badge.svg)](https://github.com/DataArtifex/dartfx-fairproxy-api/actions/workflows/test.yml)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
-[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/DataArtifex/fair-proxy-api)
+[![License](https://img.shields.io/github/license/DataArtifex/rdf-toolkit.svg)](https://github.com/DataArtifex/dartfx-fairproxy-api/blob/main/LICENSE.txt)
 
 **This project is in its early development stages. Stability is not guaranteed, and documentation is limited. We welcome your feedback and contributions.**
 
