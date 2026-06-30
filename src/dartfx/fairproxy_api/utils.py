@@ -61,9 +61,9 @@ def get_rdf_format(request: Request) -> tuple[str, str]:
 def resolve_resource(uri: str) -> ResourceInfo:
     """Infers resources identify and information based on URI"""
     resource_info = ResourceInfo(uri=uri)
-    if re.match(uri, "^https?://.*"):
+    if re.match(r"^https?://.*", uri):
         # URL
-        uritools.urlparse(uri)
+        uritools.urisplit(uri)
         raise NotImplementedError("URLs based URI not supported at this time...")
     else:
         # URN

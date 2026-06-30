@@ -1,4 +1,4 @@
-# fair-proxy-api
+# fairproxy-api
 
 [![Development Status](https://img.shields.io/badge/status-early%20release-orange.svg)](https://github.com/DataArtifex/dartfx-fairproxy-api)
 [![Documentation](https://img.shields.io/badge/docs-blue)](https://www.dataartifex.org/dartfx-fairproxy-api/)

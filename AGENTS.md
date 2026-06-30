@@ -30,7 +30,7 @@ To rename the project and package from the template defaults:
 This project uses `hatch` for environment management, but `uv` is preferred for speed.
 
 - To run tests: `uv run pytest` or `hatch run test`
-- To check types: `hatch run types:check`
+- To check types: `uv run --active pyrefly check src tests` or `hatch run types:check`
 - To build docs: `hatch run docs:build`
 
 ## Coding Standards
