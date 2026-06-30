@@ -73,6 +73,29 @@ uvx hatch run test
 uvx hatch shell
 ```
 
+## Configuration
+
+The FAIRification API relies on a `servers.yaml` file to resolve and discover data servers. By default, the application uses an embedded `servers.yaml` file packaged with the source.
+
+To customize or externalize this configuration (especially in containerized environments), you can configure the file path using the following lookup order:
+
+1. **Environment Variable**: Set the `FAIRPROXY_SERVERS_CONFIG` environment variable to the absolute path of your custom YAML file.
+2. **Container Config**: Mount your custom file to `/app/config/servers.yaml` (automatically detected inside Docker containers).
+3. **System Config**: Place your custom file at `/etc/fairproxy/servers.yaml`.
+4. **Embedded Default**: Fall back to the packaged `servers.yaml`.
+
+### Docker Compose Configuration
+
+To mount and use a custom servers configuration in Docker Compose, update your `docker-compose.yaml` service definition:
+
+```yaml
+services:
+  api:
+    # ...
+    volumes:
+      - ./my-custom-servers.yaml:/app/config/servers.yaml:ro
+```
+
 ## Development
 
 ### Version Management
@@ -133,6 +156,46 @@ curl http://127.0.0.1:8000/datasets/socrata:data.sfgov.org:wg3w-h783/markdown
 curl http://127.0.0.1:8000/datasets/socrata:data.sfgov.org:wg3w-h783/postman/collection
 
 ```
+
+### Running with Docker
+
+You can also run the application containerized using Docker and Docker Compose:
+
+```bash
+# Build the container image
+docker compose build
+
+# Start the service in the background
+docker compose up -d
+
+# Verify it is running
+curl http://localhost:8000/status
+```
+
+To stop the container:
+
+```bash
+docker compose down
+```
+
+### Verifying and Publishing the Image
+
+We provide helper scripts to verify and publish the Docker image:
+
+1. **Verify**: Validate the built image locally to ensure the container starts up and responds to status checks:
+   ```bash
+   ./verify_images.sh
+   ```
+
+2. **Publish**: Build (if not present locally), verify, tag (with `latest` and the dynamic project version from `__about__.py`), and push the image to a container registry:
+   ```bash
+   # Build, verify, tag, and publish to Docker Hub (default namespace 'dartfx')
+   ./publish_images.sh
+
+   # Publish with a custom namespace or custom tag
+   ./publish_images.sh --namespace custom-namespace --tag custom-tag
+   ```
+
 
 ### Running Tests
 

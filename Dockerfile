@@ -1,39 +1,49 @@
-# Use a multi-stage build for a small final image
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+# --- Builder Stage ---
+FROM dartfx/docker-api-base:latest AS builder
 
-# Set the working directory to the project root
+USER root
+
+# Install git and ca-certificates to clone repositories
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-# Enable bytecode compilation
-ENV UV_COMPILE_BYTECODE=1
+# Install uv for fast package management
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
-# Copy the project files (including pyproject.toml, uv.lock, and src)
-# Build this from the project root: docker build -f infrastructure/Dockerfile .
+# Copy project configuration files first to optimize layer caching
+COPY pyproject.toml ./
+
+# Install project dependencies into the virtual environment /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN uv pip install --no-cache -r pyproject.toml
+
+# Copy project source code
 COPY . /app
 
-# Sync the project and its dependencies
-# Since we are building from the project directory, uv will fetch
-# toolkit dependencies from GitHub as specified in pyproject.toml.
-RUN uv sync --no-dev
+# Install the project itself (without reinstalling dependencies)
+RUN uv pip install --no-cache --no-deps .
 
-# --- Production Stage ---
-FROM python:3.12-slim-bookworm
-
+# --- Runtime Stage ---
+FROM dartfx/docker-api-base:latest
 WORKDIR /app
 
-# Copy the environment from the builder
-COPY --from=builder /app /app
+# Copy the updated virtual environment and application code with proper ownership
+COPY --from=builder --chown=appuser:appgroup /opt/venv /opt/venv
+COPY --chown=appuser:appgroup . /app
 
-# Ensure the app environment is on the PATH
-ENV PATH="/app/.venv/bin:$PATH"
+# Add virtual environment to PATH and set PYTHONPATH so fairproxy_api imports resolve correctly
+ENV PATH="/opt/venv/bin:$PATH"
+ENV PYTHONPATH=/app/src/dartfx
 
-# Expose the FastAPI port
+# Run as the default non-root user
+USER appuser
+
+# Expose default FastAPI/uvicorn port
 EXPOSE 8000
 
-# Production command: Gunicorn with Uvicorn workers
-CMD ["gunicorn", \
-     "-w", "4", \
-     "-k", "uvicorn.workers.UvicornWorker", \
-     "--bind", "0.0.0.0:8000", \
-     "--chdir", "src/dartfx", \
-     "fairproxy_api.main:app"]
+# Start the service entrypoint
+CMD ["uvicorn", "fairproxy_api.main:app", "--host", "0.0.0.0", "--port", "8000"]

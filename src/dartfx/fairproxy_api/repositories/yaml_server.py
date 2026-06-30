@@ -13,8 +13,20 @@ class YamlServerRepository(ServerRepository):
 
     def __init__(self, file_path: str | None = None):
         if file_path is None:
-            module_dir = os.path.dirname(__file__)
-            self.file_path = os.path.join(module_dir, "servers.yaml")
+            # 1. Check for environment variable configuration override
+            env_path = os.environ.get("FAIRPROXY_SERVERS_CONFIG")
+            if env_path:
+                self.file_path = env_path
+            # 2. Check for container default config path
+            elif os.path.exists("/app/config/servers.yaml"):
+                self.file_path = "/app/config/servers.yaml"
+            # 3. Check for system default config path
+            elif os.path.exists("/etc/fairproxy/servers.yaml"):
+                self.file_path = "/etc/fairproxy/servers.yaml"
+            # 4. Fallback to package-embedded servers configuration
+            else:
+                module_dir = os.path.dirname(__file__)
+                self.file_path = os.path.join(module_dir, "servers.yaml")
         else:
             self.file_path = file_path
 

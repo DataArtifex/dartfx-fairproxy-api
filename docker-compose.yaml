@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app/src/dartfx
+      # Option 1: Map custom location via environment variable
+      # - FAIRPROXY_SERVERS_CONFIG=/app/config/servers.yaml
+    # Option 2: Mount servers.yaml directly to /app/config/servers.yaml (auto-detected)
+    # volumes:
+    #   - ./servers.yaml:/app/config/servers.yaml:ro
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - dartfx
+
+networks:
+  dartfx:
+    driver: bridge
