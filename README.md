@@ -73,13 +73,14 @@ uvx hatch run test
 uvx hatch shell
 ```
 
-
 ## Development
 
 ### Version Management
+
 Versions are managed dynamically in `src/dartfx/fairproxy_api/__about__.py`.
 
 ### Secret Management
+
 For local development, create a `.env` file in the root directory. This file is git-ignored and can be used to store local API keys or configuration. These are automatically loaded by the test suite.
 
 ### Run API Locally
@@ -114,17 +115,36 @@ Quick health check:
 curl http://127.0.0.1:8000/status
 ```
 
+Quick tests:
+
+```bash
+# get list of servers
+curl http://127.0.0.1:8000/servers
+
+
+# Get San Francisco 311 Dataset (Socrata)
+curl http://127.0.0.1:8000/socrata/data.sfgov.org/wg3w-h783/native
+curl http://127.0.0.1:8000/socrata/data.sfgov.org/wg3w-h783/ddi/codebook
+curl http://127.0.0.1:8000/socrata/data.sfgov.org/wg3w-h783/ddi/cdi
+curl http://127.0.0.1:8000/socrata/data.sfgov.org/wg3w-h783/dcat
+
+# Get San Francisco 311 Dataset (Unified)
+curl http://127.0.0.1:8000/datasets/socrata:data.sfgov.org:wg3w-h783/markdown
+curl http://127.0.0.1:8000/datasets/socrata:data.sfgov.org:wg3w-h783/postman/collection
+
+```
+
 ### Running Tests
+
 ```bash
 uv run pytest
 ```
 
 ### Building Documentation
+
 ```bash
 uv run sphinx-build -b html docs/source docs/build/html
 ```
-
-
 
 ## Usage
 
