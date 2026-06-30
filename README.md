@@ -183,19 +183,20 @@ docker compose down
 We provide helper scripts to verify and publish the Docker image:
 
 1. **Verify**: Validate the built image locally to ensure the container starts up and responds to status checks:
+
    ```bash
    ./verify_images.sh
    ```
 
 2. **Publish**: Build (if not present locally), verify, tag (with `latest` and the dynamic project version from `__about__.py`), and push the image to a container registry:
+
    ```bash
    # Build, verify, tag, and publish to Docker Hub (default namespace 'dartfx')
-   ./publish_images.sh
+   ./publish_image.sh
 
    # Publish with a custom namespace or custom tag
-   ./publish_images.sh --namespace custom-namespace --tag custom-tag
+   ./publish_image.sh --namespace custom-namespace --tag custom-tag
    ```
-
 
 ### Running Tests
 

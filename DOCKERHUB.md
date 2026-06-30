@@ -81,6 +81,48 @@ services:
       - ./my-custom-servers.yaml:/etc/custom/servers.yaml:ro
 ```
 
+## Caching Configuration
+
+To optimize performance and reduce downstream requests to data platforms, the API implements caching of external HTTP requests via `requests-cache`. You can configure the caching strategy using the following environment variables:
+
+| Environment Variable | Description | Default |
+| --- | --- | --- |
+| `REQUEST_CACHE_BACKEND` | Cache backend: `memory`, `sqlite`, or `sqlalchemy` (Postgres) | `memory` |
+| `REQUEST_CACHE_CONNECTION` | Connection URI for `sqlalchemy`, or file path for `sqlite` | *Optional* |
+| `REQUEST_CACHE_EXPIRE` | Cache expiration time in seconds | `3600` (1 hour) |
+
+### Memory Backend (Default)
+In-memory caching stores requests in the running container's RAM. No extra configuration is needed:
+```yaml
+environment:
+  - REQUEST_CACHE_BACKEND=memory
+```
+
+### SQLite Backend
+Stores the cache in a local database file. To persist it across container rebuilds/restarts, mount a volume to `/app/cache`:
+```yaml
+services:
+  api:
+    image: dartfx/fairproxy-api:latest
+    environment:
+      - REQUEST_CACHE_BACKEND=sqlite
+      # File path defaults to /app/cache/http_cache.sqlite if not specified
+    volumes:
+      - api-cache:/app/cache
+
+volumes:
+  api-cache:
+```
+
+### PostgreSQL Backend
+To share the cache across multiple container replicas or Gunicorn workers, use your existing PostgreSQL database:
+```yaml
+environment:
+  - REQUEST_CACHE_BACKEND=sqlalchemy
+  - REQUEST_CACHE_CONNECTION=postgresql+psycopg://user:password@postgres-host:5432/cache_db
+```
+
+
 ## Example API Queries
 
 Once the service is running, you can explore the following endpoints:

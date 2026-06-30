@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from fairproxy_api.cache import setup_cache
 from fairproxy_api.routers import get_router
+
+# Initialize cache configuration
+setup_cache()
 
 app = FastAPI(
     title="FAIRification API",

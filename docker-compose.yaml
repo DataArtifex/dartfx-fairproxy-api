@@ -9,9 +9,18 @@ services:
       - PYTHONPATH=/app/src/dartfx
       # Option 1: Map custom location via environment variable
       # - FAIRPROXY_SERVERS_CONFIG=/app/config/servers.yaml
-    # Option 2: Mount servers.yaml directly to /app/config/servers.yaml (auto-detected)
+
+      # --- Cache Configuration ---
+      # Backend options: 'memory' (default), 'sqlite', or 'sqlalchemy' (for Postgres)
+      - REQUEST_CACHE_BACKEND=memory
+      # For 'sqlite', defaults to: /app/cache/http_cache.sqlite (persisted via volume below)
+      # For 'sqlalchemy' (Postgres), specify connection URI, e.g.:
+      # - REQUEST_CACHE_CONNECTION=postgresql+psycopg://user:password@host.docker.internal:5432/cache_db
     # volumes:
+    #   # Mount servers.yaml directly to /app/config/servers.yaml (auto-detected)
     #   - ./servers.yaml:/app/config/servers.yaml:ro
+    #   # Volume to persist SQLite cache when using REQUEST_CACHE_BACKEND=sqlite
+    #   - api_cache:/app/cache
     security_opt:
       - no-new-privileges:true
     networks:
@@ -20,3 +29,6 @@ services:
 networks:
   dartfx:
     driver: bridge
+
+# volumes:
+#   api_cache:
