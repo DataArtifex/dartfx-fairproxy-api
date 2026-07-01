@@ -20,6 +20,7 @@ services:
     #   # Mount servers.yaml directly to /app/config/servers.yaml (auto-detected)
     #   - ./servers.yaml:/app/config/servers.yaml:ro
     #   # Volume to persist SQLite cache when using REQUEST_CACHE_BACKEND=sqlite
+    #   # Note: The api_cache volume/directory must belong to appuser (UID 10001)
     #   - api_cache:/app/cache
     security_opt:
       - no-new-privileges:true
@@ -31,4 +32,5 @@ networks:
     driver: bridge
 
 # volumes:
+#   # Note: The api_cache volume must belong to appuser (UID 10001)
 #   api_cache:

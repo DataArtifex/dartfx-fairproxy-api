@@ -31,6 +31,10 @@ RUN uv pip install --no-cache --no-deps .
 FROM dartfx/docker-api-base:latest
 WORKDIR /app
 
+USER root
+# Create cache directory and ensure proper ownership
+RUN mkdir -p /app/cache && chown -R appuser:appgroup /app/cache
+
 # Copy the updated virtual environment and application code with proper ownership
 COPY --from=builder --chown=appuser:appgroup /opt/venv /opt/venv
 COPY --chown=appuser:appgroup . /app
