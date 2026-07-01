@@ -1,8 +1,6 @@
 services:
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: dartfx/fairproxy-api:latest
     ports:
       - "8000:8000"
     environment:
@@ -19,9 +17,10 @@ services:
     # volumes:
     #   # Mount servers.yaml directly to /app/config/servers.yaml (auto-detected)
     #   - ./servers.yaml:/app/config/servers.yaml:ro
-    #   # Volume to persist SQLite cache when using REQUEST_CACHE_BACKEND=sqlite
-    #   # Note: The api_cache volume/directory must belong to appuser (UID 10001)
-    #   - api_cache:/app/cache
+    #   # Bind mount to persist SQLite cache when using REQUEST_CACHE_BACKEND=sqlite
+    #   # Note: The local directory (./api_cache) must exist and belong to appuser (UID 10001)
+    #   # Run: mkdir -p api_cache && sudo chown -R 10001:10001 api_cache
+    #   - ./api_cache:/app/cache
     security_opt:
       - no-new-privileges:true
     networks:
@@ -30,7 +29,3 @@ services:
 networks:
   dartfx:
     driver: bridge
-
-# volumes:
-#   # Note: The api_cache volume must belong to appuser (UID 10001)
-#   api_cache:

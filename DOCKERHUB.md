@@ -99,7 +99,7 @@ environment:
 ```
 
 ### SQLite Backend
-Stores the cache in a local database file. To persist it across container rebuilds/restarts, mount a volume to `/app/cache`:
+Stores the cache in a local database file. To persist it across container rebuilds/restarts, bind-mount a host directory to `/app/cache`:
 ```yaml
 services:
   api:
@@ -108,11 +108,17 @@ services:
       - REQUEST_CACHE_BACKEND=sqlite
       # File path defaults to /app/cache/http_cache.sqlite if not specified
     volumes:
-      - api-cache:/app/cache
-
-volumes:
-  api-cache:
+      # Bind-mount a local directory on your host to persist the cache database
+      - ./api_cache:/app/cache
 ```
+
+> [!IMPORTANT]
+> **Directory Permissions (UID 10001)**
+> Since the container runs as a non-root user (`appuser` with UID `10001`), the host directory must be writable by UID `10001`. Create the directory and set ownership before starting the container:
+> ```bash
+> mkdir -p api_cache
+> sudo chown -R 10001:10001 api_cache
+> ```
 
 ### PostgreSQL Backend
 To share the cache across multiple container replicas or Gunicorn workers, use your existing PostgreSQL database:
