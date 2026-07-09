@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAIRification Proxy API - Developer Portal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-color: #0b0f19;
@@ -112,9 +115,20 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
         }
 
         /* Hero */
@@ -294,7 +308,8 @@
             margin-bottom: 6px;
         }
 
-        .form-select, .form-input {
+        .form-select,
+        .form-input {
             width: 100%;
             background-color: var(--code-bg);
             border: 1px solid var(--card-border);
@@ -306,7 +321,8 @@
             transition: border-color 0.2s ease;
         }
 
-        .form-select:focus, .form-input:focus {
+        .form-select:focus,
+        .form-input:focus {
             outline: none;
             border-color: var(--accent-blue);
         }
@@ -343,9 +359,11 @@
                 align-items: stretch;
                 gap: 12px;
             }
+
             .sandbox-controls .form-group {
                 margin-bottom: 12px;
             }
+
             .sandbox-controls .playground-run {
                 width: 100%;
                 height: auto;
@@ -476,6 +494,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -495,19 +514,32 @@
         <section class="hero">
             <h1>FAIRification Proxy API</h1>
             <p>
-                Exposing unified metadata profiles and dataset structures across heterogeneous data catalogs via semantically enriched, structured schema standards.
+                Exposing unified metadata profiles and dataset structures across heterogeneous data catalogs via
+                semantically enriched, structured schema standards.
             </p>
             <div class="btn-group">
                 <a href="docs" class="btn btn-primary" id="link-swagger">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                        </path>
+                    </svg>
                     Interactive Swagger UI
                 </a>
                 <a href="redoc" class="btn btn-secondary" id="link-redoc">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
+                    </svg>
                     ReDoc Reference
                 </a>
                 <a href="status" class="btn btn-secondary" target="_blank" id="link-status">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path></svg>
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z">
+                        </path>
+                    </svg>
                     API Health Status
                 </a>
             </div>
@@ -518,41 +550,50 @@
             <!-- Supported Standards -->
             <div class="card">
                 <h2>
-                    <svg width="24" height="24" fill="none" stroke="url(#gradient)" stroke-width="2" viewBox="0 0 24 24">
+                    <svg width="24" height="24" fill="none" stroke="url(#gradient)" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <defs>
                             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" stop-color="#3b82f6" />
                                 <stop offset="100%" stop-color="#8b5cf6" />
                             </linearGradient>
                         </defs>
-                        <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        <path
+                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                        </path>
                     </svg>
                     Supported Metadata Profiles
                 </h2>
                 <div class="standards-list">
                     <div class="standard-item">
                         <div class="standard-title">DCAT-3 <span class="standard-badge">RDF</span></div>
-                        <div class="standard-desc">W3C vocabulary for cataloging datasets, enabling federated metadata harvesting.</div>
+                        <div class="standard-desc">W3C vocabulary for cataloging datasets, enabling federated metadata
+                            harvesting.</div>
                     </div>
                     <div class="standard-item">
                         <div class="standard-title">ML Croissant <span class="standard-badge">JSON-LD</span></div>
-                        <div class="standard-desc">MLCommons format optimizing metadata exchange for machine learning applications.</div>
+                        <div class="standard-desc">MLCommons format optimizing metadata exchange for machine learning
+                            applications.</div>
                     </div>
                     <div class="standard-item">
                         <div class="standard-title">DDI Codebook <span class="standard-badge">XML</span></div>
-                        <div class="standard-desc">XML profile standard for documenting social science surveys, study structures, and codebooks.</div>
+                        <div class="standard-desc">XML profile standard for documenting social science surveys, study
+                            structures, and codebooks.</div>
                     </div>
                     <div class="standard-item">
                         <div class="standard-title">DDI-CDI <span class="standard-badge">RDF</span></div>
-                        <div class="standard-desc">Cross-Domain Integration model for detailing granular column variables and integration mappings.</div>
+                        <div class="standard-desc">Cross-Domain Integration model for detailing granular column
+                            variables and integration mappings.</div>
                     </div>
                     <div class="standard-item">
                         <div class="standard-title">Postman <span class="standard-badge">JSON</span></div>
-                        <div class="standard-desc">Instantly importable collections enabling rapid local API exploration and testing.</div>
+                        <div class="standard-desc">Instantly importable collections enabling rapid local API exploration
+                            and testing.</div>
                     </div>
                     <div class="standard-item">
                         <div class="standard-title">Markdown <span class="standard-badge">TEXT</span></div>
-                        <div class="standard-desc">A human-readable data summary document detailing columns, descriptions, and servers.</div>
+                        <div class="standard-desc">A human-readable data summary document detailing columns,
+                            descriptions, and servers.</div>
                     </div>
                 </div>
             </div>
@@ -582,12 +623,14 @@
                         <tr>
                             <td><span class="method-badge">GET</span></td>
                             <td class="path-text">/datasets/{uri}/{format}</td>
-                            <td>Unified endpoint to fetch metadata for a dataset URI in a specified format (dcat, croissant, ddi/codebook, ddi/cdi, markdown, postman/collection, native).</td>
+                            <td>Unified endpoint to fetch metadata for a dataset URI in a specified format (dcat,
+                                croissant, ddi/codebook, ddi/cdi, markdown, postman/collection, native).</td>
                         </tr>
                         <tr>
                             <td><span class="method-badge">GET</span></td>
                             <td class="path-text">/socrata/{host}/{dataset_id}/{format}</td>
-                            <td>Socrata platform-specific proxy endpoint to bypass URI decoding and query raw hosts.</td>
+                            <td>Socrata platform-specific proxy endpoint to bypass URI decoding and query raw hosts.
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -598,18 +641,27 @@
         <div style="margin-top: 32px;">
             <div class="card">
                 <h2 class="sandbox-title">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path
+                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z">
+                        </path>
+                        <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
                     Interactive API Sandbox
                 </h2>
-                <div class="sandbox-description">Test proxy queries in real-time. Choose a dataset and target format to execute a local API query.</div>
+                <div class="sandbox-description">Test proxy queries in real-time. Choose a dataset and target format to
+                    execute a local API query.</div>
 
                 <div class="sandbox-controls">
                     <div class="form-group">
                         <label class="form-label" for="dataset-select">Select Target Dataset (FAIR URI)</label>
                         <select class="form-select" id="dataset-select">
-                            <option value="socrata:data.sfgov.org:wg3w-h783">socrata:data.sfgov.org:wg3w-h783 (SF 311 Cases)</option>
-                            <option value="socrata:data.cityofnewyork.us:erm2-nwe9">socrata:data.cityofnewyork.us:erm2-nwe9 (NYC 311 Inquiry)</option>
-                            <option value="socrata:data.seattle.gov:t2th-27tc">socrata:data.seattle.gov:t2th-27tc (Seattle Library Checkouts)</option>
+                            <option value="socrata:data.sfgov.org:wg3w-h783">socrata:data.sfgov.org:wg3w-h783 (SF 311
+                                Cases)</option>
+                            <option value="socrata:data.cityofnewyork.us:erm2-nwe9">
+                                socrata:data.cityofnewyork.us:erm2-nwe9 (NYC 311 Inquiry)</option>
+                            <option value="socrata:data.seattle.gov:kzjm-xkqj">socrata:data.seattle.gov:kzjm-xkqj
+                                (Seattle Real Time Fire 911 Calls)</option>
                         </select>
                     </div>
 
@@ -633,7 +685,8 @@
                 <div class="results-container" id="sandbox-results-panel">
                     <div class="results-header">
                         <span class="results-title" id="results-path-badge">RESPONSE</span>
-                        <span style="color: var(--success-color); font-size: 12px; font-weight: bold;" id="response-status-badge">HTTP 200 OK</span>
+                        <span style="color: var(--success-color); font-size: 12px; font-weight: bold;"
+                            id="response-status-badge">HTTP 200 OK</span>
                     </div>
                     <div class="pre-wrapper">
                         <button class="copy-btn" id="copy-response-btn">Copy</button>
@@ -645,7 +698,8 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>Powered by <a href="https://github.com/DataArtifex/dartfx-fairproxy-api" target="_blank">DataArtifex dartfx</a>. Open source under the MIT License.</p>
+            <p>Powered by <a href="https://github.com/DataArtifex/dartfx-fairproxy-api" target="_blank">DataArtifex
+                    dartfx</a>. Open source under the MIT License.</p>
         </div>
     </div>
 
@@ -743,4 +797,5 @@
         });
     </script>
 </body>
+
 </html>
