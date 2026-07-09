@@ -650,12 +650,23 @@
     </div>
 
     <script>
+        // Determine the base path dynamically (handles trailing and non-trailing slashes)
+        let basePath = window.location.pathname;
+        if (!basePath.endsWith('/')) {
+            basePath += '/';
+        }
+
         // Check real health status dynamically
-        fetch('status')
+        fetch(basePath + 'status')
             .then(res => res.json())
             .then(data => {
                 if (data.status === 'pass') {
-                    document.getElementById('system-status-text').innerText = 'SYSTEM ONLINE (v' + data.version + ')';
+                    let statusText = 'SYSTEM ONLINE (v' + data.version;
+                    if (data.releaseId && data.releaseId !== 'development') {
+                        statusText += ' - ' + data.releaseId;
+                    }
+                    statusText += ')';
+                    document.getElementById('system-status-text').innerText = statusText;
                 }
             })
             .catch(err => {
@@ -681,10 +692,10 @@
             const targetPath = 'datasets/' + encodeURIComponent(dataset) + '/' + format;
 
             resultsPanel.style.display = 'block';
-            codeBlock.innerText = 'Loading request: GET /' + targetPath + '...';
-            pathBadge.innerText = 'GET /' + targetPath;
+            codeBlock.innerText = 'Loading request: GET ' + basePath + targetPath + '...';
+            pathBadge.innerText = 'GET ' + basePath + targetPath;
 
-            fetch(targetPath)
+            fetch(basePath + targetPath)
                 .then(async response => {
                     const contentType = response.headers.get("content-type");
                     let text = "";

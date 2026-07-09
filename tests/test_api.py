@@ -9,7 +9,11 @@ client = TestClient(app)
 def test_status_endpoint() -> None:
     response = client.get("/status")
     assert response.status_code == 200
-    assert response.json() == {"status": "pass", "version": "0.1.0"}
+    data = response.json()
+    assert data["status"] == "pass"
+    assert data["version"] == "0.1.0"
+    assert "releaseId" in data
+    assert data["releaseId"] == "development"
 
 
 def test_root_endpoint_landing_page() -> None:

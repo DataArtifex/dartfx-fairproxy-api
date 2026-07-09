@@ -229,6 +229,7 @@ If you are using **Nginx Proxy Manager** (NPM) to route a single domain host (e.
    - **Forward Port**: `8000`
 4. Click the gear icon next to the location definition to insert the **Advanced** configuration:
    ```nginx
+   rewrite ^/fairproxy$ / break;
    rewrite ^/fairproxy/(.*)$ /$1 break;
    proxy_set_header X-Forwarded-Prefix /fairproxy;
    ```

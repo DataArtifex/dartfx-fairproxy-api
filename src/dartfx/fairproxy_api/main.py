@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
@@ -35,7 +37,19 @@ async def root() -> HTMLResponse:
 @app.get("/status")
 async def status() -> dict[str, str]:
     """Health status API."""
-    return {"status": "pass", "version": "0.1.0"}
+    release_id = "development"
+    build_time_file = Path(__file__).parent / "build_time.txt"
+    if build_time_file.exists():
+        try:
+            release_id = build_time_file.read_text(encoding="utf-8").strip()
+        except Exception:
+            pass
+
+    return {
+        "status": "pass",
+        "version": "0.1.0",
+        "releaseId": release_id,
+    }
 
 
 if __name__ == "__main__":

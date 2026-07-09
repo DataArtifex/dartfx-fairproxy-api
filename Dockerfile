@@ -43,6 +43,10 @@ COPY --chown=appuser:appgroup . /app
 ENV PATH="/opt/venv/bin:$PATH"
 ENV PYTHONPATH=/app/src/dartfx
 
+# Generate build timestamp inside the application source folder at image build time
+RUN date -u +"%Y-%m-%dT%H:%M:%SZ" > /app/src/dartfx/fairproxy_api/build_time.txt && \
+    chown appuser:appgroup /app/src/dartfx/fairproxy_api/build_time.txt
+
 # Run as the default non-root user
 USER appuser
 
