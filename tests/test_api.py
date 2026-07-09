@@ -12,6 +12,13 @@ def test_status_endpoint() -> None:
     assert response.json() == {"status": "pass", "version": "0.1.0"}
 
 
+def test_root_endpoint_landing_page() -> None:
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "text/html" in response.headers["content-type"]
+    assert "FAIRification Proxy API" in response.text
+
+
 def test_socrata_dcat() -> None:
     response = client.get("/socrata/data.cityofnewyork.us/uvpi-gqnh/dcat")
     assert response.status_code == 200

@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 
 from fairproxy_api.cache import setup_cache
+from fairproxy_api.landing import get_landing_page
 from fairproxy_api.routers import get_router
 
 # Initialize cache configuration
@@ -22,6 +24,12 @@ app.add_middleware(
 )
 
 app.include_router(get_router())
+
+
+@app.get("/", response_class=HTMLResponse)
+async def root() -> HTMLResponse:
+    """Developer portal landing page."""
+    return HTMLResponse(content=get_landing_page())
 
 
 @app.get("/status")
