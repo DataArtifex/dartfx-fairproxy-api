@@ -31,7 +31,7 @@ Create a `docker-compose.yaml` file:
 
 ```yaml
 services:
-  api:
+  fairproxy-api:
     image: dartfx/fairproxy-api:latest
     ports:
       - "8000:8000"
@@ -57,7 +57,7 @@ Mount your custom `servers.yaml` directly to `/app/config/servers.yaml` inside t
 
 ```yaml
 services:
-  api:
+  fairproxy-api:
     image: dartfx/fairproxy-api:latest
     ports:
       - "8000:8000"
@@ -71,7 +71,7 @@ Mount your custom `servers.yaml` to any path in the container, and set the `FAIR
 
 ```yaml
 services:
-  api:
+  fairproxy-api:
     image: dartfx/fairproxy-api:latest
     ports:
       - "8000:8000"
@@ -102,7 +102,7 @@ environment:
 Stores the cache in a local database file. To persist it across container rebuilds/restarts, bind-mount a host directory to `/app/cache`:
 ```yaml
 services:
-  api:
+  fairproxy-api:
     image: dartfx/fairproxy-api:latest
     environment:
       - REQUEST_CACHE_BACKEND=sqlite

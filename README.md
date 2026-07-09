@@ -90,7 +90,7 @@ To mount and use a custom servers configuration in Docker Compose, update your `
 
 ```yaml
 services:
-  api:
+  fairproxy-api:
     # ...
     volumes:
       - ./my-custom-servers.yaml:/app/config/servers.yaml:ro
@@ -177,6 +177,63 @@ To stop the container:
 ```bash
 docker compose down
 ```
+
+### Deployment Behind a Reverse Proxy (Nginx / Nginx Proxy Manager)
+
+When exposing the API behind a reverse proxy under a subpath like `/fairproxy`, both the proxy and the application must be configured to handle the path prefix routing.
+
+#### 1. FastAPI / Uvicorn Configuration
+
+For FastAPI to generate correct URLs (e.g. for Swagger UI at `/fairproxy/docs` instead of `/docs`), it needs to know the subpath prefix. Configure this using the `UVICORN_ROOT_PATH` environment variable in your `docker-compose.yaml`:
+
+```yaml
+services:
+  fairproxy-api:
+    image: dartfx/fairproxy-api:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app/src/dartfx
+      # Tell FastAPI it is hosted behind the /fairproxy subpath
+      - UVICORN_ROOT_PATH=/fairproxy
+```
+
+#### 2. Nginx Configuration
+
+In your Nginx site configuration, rewrite the incoming subpath and forward the headers:
+
+```nginx
+location /fairproxy/ {
+    proxy_pass http://fairproxy-api:8000/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Prefix /fairproxy;
+}
+```
+
+> [!NOTE]
+> Make sure the trailing slash `/` is present in both `location /fairproxy/` and `proxy_pass http://fairproxy-api:8000/;` so Nginx correctly strips the `/fairproxy` prefix before forwarding the request to the container.
+
+#### 3. Nginx Proxy Manager Setup (Shared Host Configuration)
+
+If you are using **Nginx Proxy Manager** (NPM) to route a single domain host (e.g., `api.highvaluedata.net`) to multiple backend APIs on the same Docker network, you can configure `fairproxy-api` as a **Custom Location** under that shared host:
+
+1. In NPM, create or edit the **Proxy Host** for your domain (e.g., `api.highvaluedata.net`).
+2. Go to the **Custom Locations** tab.
+3. Click **Add Location** to register the `fairproxy` endpoint:
+   - **Define Location**: `/fairproxy/`
+   - **Scheme**: `http`
+   - **Forward Host / IP**: `fairproxy-api` (resolves via the shared Docker network)
+   - **Forward Port**: `8000`
+4. Click the gear icon next to the location definition to insert the **Advanced** configuration:
+   ```nginx
+   rewrite ^/fairproxy/(.*)$ /$1 break;
+   proxy_set_header X-Forwarded-Prefix /fairproxy;
+   ```
+
+*(You can then repeat this pattern under the same Proxy Host to add other API endpoints under different location paths like `/anotherapi/`.)*
 
 ### Verifying and Publishing the Image
 

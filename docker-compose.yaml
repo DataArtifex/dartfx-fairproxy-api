@@ -1,5 +1,5 @@
 services:
-  api:
+  fairproxy-api:
     image: dartfx/fairproxy-api:latest
     ports:
       - "8000:8000"
@@ -8,9 +8,14 @@ services:
       # Option 1: Map custom location via environment variable
       # - FAIRPROXY_SERVERS_CONFIG=/app/config/servers.yaml
 
+      # Path prefix configuration for deployment behind a reverse proxy (e.g., Nginx)
+      # - UVICORN_ROOT_PATH=/fairproxy
+
       # --- Cache Configuration ---
       # Backend options: 'memory' (default), 'sqlite', or 'sqlalchemy' (for Postgres)
       - REQUEST_CACHE_BACKEND=memory
+      # Expiration time in seconds (e.g., 3600 for 1 hour, 86400 for 24 hours). Defaults to 3600.
+      # - REQUEST_CACHE_EXPIRE=3600
       # For 'sqlite', defaults to: /app/cache/http_cache.sqlite (persisted via volume below)
       # For 'sqlalchemy' (Postgres), specify connection URI, e.g.:
       # - REQUEST_CACHE_CONNECTION=postgresql+psycopg://user:password@host.docker.internal:5432/cache_db
